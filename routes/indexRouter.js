@@ -17,34 +17,28 @@ router.get('/movies/:moviesId', (req, res) => {
 });
 
 
-router.get('/movies/:moviesTitle', (req, res) => {
-    const moviesTitle = req.params.moviesTitle;
+router.get('/movies/title/:title', (req, res) => {
+    const moviesTitle = movies.filter(movie => movie.title.toLowerCase() == req.params.title.toLowerCase());
+    
+    return res.send(moviesTitle);
+       
+    });
 
-    if(!movies[moviesTitle]) {
-        return res.send('No se encuentra la película por ese título');
-    }
-
-    return res.send(movies[moviesTitle]);
+router.get('/movies/genre/:genre', (req, res) => {
+    const moviesGenre = movies.filter(movie => movie.genre.toLowerCase() == req.params.genre.toLowerCase());
+     return res.send(moviesGenre);
 });
 
-router.get('/movies/:moviesGender', (req, res) => {
-    const moviesGender = req.params.moviesGender;
+router.get('/movies/year/:year', (req, res) => {
+    const moviesYear = movies.filter(movie => movie.year > 2010);
 
-    if(!movies[moviesGender]) {
-        return res.send('No se encuentra la película por ese género');
+    if (moviesYear.length > 0) {
+        return res.send(moviesYear);
+    }else{
+        return res.send('No se encuentra la película por año')
     }
 
-    return res.send(movies[moviesGender]);
-});
-
-router.get('/movies/:moviesYear', (req, res) => {
-    const moviesYear = req.params.moviesGender;
-
-    if(!movies[moviesYear]) {
-        return res.send('No se encuentra la película por ese año');
-    }
-
-    return res.send(movies[moviesYear] > 2010);
+   
 });
 
 module.exports = router; 
